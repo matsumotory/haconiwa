@@ -38,6 +38,8 @@ cache:
 script:
   - rake consistent
   - rake compile
+  - sudo sed -e "s?secure_path=\"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\"?secure_path=\"${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\"?g" --in-place /etc/sudoers
+  - sudo cat /etc/sudoers
   - sudo /usr/bin/rake test:bintest
   - sudo /usr/bin/rake test:mtest
   # FIXME: mruby-uv test is broken only on Travis CI
