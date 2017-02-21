@@ -37,8 +37,8 @@ cache:
 script:
   - rake consistent
   - rake compile
-  - sudo -E /usr/bin/rake test:bintest
-  - sudo -E /usr/bin/rake test:mtest
+  - sudo -i /usr/bin/rake test:bintest
+  - sudo -i /usr/bin/rake test:mtest
   # FIXME: mruby-uv test is broken only on Travis CI
   # - sudo /usr/bin/rake test:mtest
 
