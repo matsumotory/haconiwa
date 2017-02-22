@@ -20,6 +20,7 @@ addons:
       - libcap-dev
       - libargtable2-dev
       - clang
+      - gdb
 compiler:
   - gcc
   - clang
@@ -34,6 +35,8 @@ branches:
 cache:
   directories:
     - mruby
+before_script:
+- ulimit -c unlimited -S       # enable core dumps
 
 script:
   - rake consistent
@@ -44,6 +47,11 @@ script:
   - sudo /usr/bin/rake test:mtest
   # FIXME: mruby-uv test is broken only on Travis CI
   # - sudo /usr/bin/rake test:mtest
+  
+after_failure:
+  - COREFILE=$(find . -maxdepth 1 -name "core*" | head -n 1) # find core file
+  - if [[ -f "$COREFILE" ]]; then gdb -c "$COREFILE" example -ex "thread apply all bt" -ex "set pagination 0" -batch; fi
+
 
 notifications:
   slack:
