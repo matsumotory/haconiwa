@@ -2,14 +2,6 @@ dist: trusty
 sudo: required
 
 language: cpp
-before_install:
-  # upgrade g++ and libstdc++ to build nghttp2
-  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
-  - sudo apt-add-repository --yes ppa:smspillaz/cmake-2.8.12
-  - sudo apt-get --yes update
-  - sudo apt-get install --yes cmake cmake-data g++-4.8 libstdc++-4.8-dev php5-cgi wget
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8"; fi
-  - $CXX --version
   - curl -L  https://github.com/coreos/etcd/releases/download/v2.3.7/etcd-v2.3.7-linux-amd64.tar.gz -o etcd-v2.3.7-linux-amd64.tar.gz
   - tar xzvf etcd-v2.3.7-linux-amd64.tar.gz
   - cd etcd-v2.3.7-linux-amd64 && sudo nohup ./etcd &
@@ -39,6 +31,10 @@ branches:
     - master
     - 0.6.x-dev
     - 0.7.x-dev
+cache:
+  directories:
+    - mruby
+    
 install:
   # Set the core file limit to unlimited so a core file is generated upon crash
   - ulimit -c unlimited -S
@@ -58,6 +54,7 @@ script:
   - sudo /usr/bin/rake test:bintest
   - sudo /usr/bin/rake test:mtest
   - ls -la
+  - find . | grep core
   - for i in $(find ./ -maxdepth 1 -name 'core*' -print); do gdb -c $i -ex "thread apply all bt" -ex "set pagination 0" -batch; done;
   - COREFILE=$(find . -maxdepth 1 -name "core*" | head -n 1)
   - echo $COREFILE
