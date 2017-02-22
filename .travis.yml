@@ -47,7 +47,8 @@ script:
   - ulimit -c unlimited
   - sudo /usr/bin/rake test:mtest
   - COREFILE=$(find . -maxdepth 1 -name "core*" | head -n 1) # find core file
-  - echo $COREFILE   - if [[ -f "$COREFILE" ]]; then gdb -c "$COREFILE" example -ex "thread apply all bt" -ex "set pagination 0" -batch; fi
+  - echo $COREFILE
+  - if [[ -f "$COREFILE" ]]; then gdb -c "$COREFILE" example -ex "thread apply all bt" -ex "set pagination 0" -batch; fi
 
   # FIXME: mruby-uv test is broken only on Travis CI
   # - sudo /usr/bin/rake test:mtest
