@@ -1,12 +1,12 @@
 dist: trusty
 sudo: required
 
-language: c
+language: caaa
 
-before_install:
-  - curl -L  https://github.com/coreos/etcd/releases/download/v2.3.7/etcd-v2.3.7-linux-amd64.tar.gz -o etcd-v2.3.7-linux-amd64.tar.gz
-  - tar xzvf etcd-v2.3.7-linux-amd64.tar.gz
-  - cd etcd-v2.3.7-linux-amd64 && sudo nohup ./etcd &
+#before_install:
+#  - curl -L  https://github.com/coreos/etcd/releases/download/v2.3.7/etcd-v2.3.7-linux-amd64.tar.gz -o etcd-v2.3.7-linux-amd64.tar.gz
+#  - tar xzvf etcd-v2.3.7-linux-amd64.tar.gz
+#  - cd etcd-v2.3.7-linux-amd64 && sudo nohup ./etcd &
 addons:
   apt:
     packages:
@@ -38,10 +38,11 @@ cache:
 before_script:
   - sudo sed -e "s?/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin?${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin?g" --in-place /etc/sudoers
 script:
-  - sudo rake consistent
- # - sudo rake compile
-  - sudo rake test:mtest
-  - sudo rake test:bintest
+  - rake consistent
+  - rake compile
+  - sudo /usr/bin/rake test:bintest
+  - sudo /usr/bin/rake test:mtest
+
 notifications:
   slack:
     secure: KAjlH+WzxWhsJfByqXWVxyC1c685uAmCVPxg1h0CDG7jTYs5FV1PI/WhtNg61QEDf3VZSXcQd1hgRILSIay+Sz9z346o/3oJs6WzqI7BTqN0nJ1zPJ4HDLk5dk0YG5mDrq3K/OFtCrEUxGu9vIp7zd6tLAah4wYQ3H5ehNoTaF6gPseBYWpDApNHIVC2TtpzZfqtaY2Q/J9WHPtccobLxH72pujRfxNIt8vldOKU0oT4Q7QeZr3zvCUcyCXj6ewBIEMcy3hfLlgjbVxKW+BjDbbpSQK7CgATu+jkvc1wxUfDHyt1ezaltvfWLv7yk3ru7cw28Klb3szj8pfgaGDLu+SlhhrFra4veqyNeY7youN63MzzgjMONnRZeYBdWHkIUkJ/nU50dKiwF02flMAd1/aJCM5VMUd8ljBpW6QR5amf4bZlyzsBLrWjdDNNpAjTvShkVVHhpGqZ7doSI3WeRORYfPTxwdOnTvhIDnaqoKYVKs4Lzx/Av+Q9qglMc98NIVN5iqc2dpdtUVnyMEEZxoldwU9w8rbj/L/tHys7nmNm4dR7xpdtvWjv6YsIeuYVUMCq971bMV6aPLSwkMMTXQg3VW3J5ZhSRX2wtgZq3aMGpne0x92cUlPSWFi30wt7LxSAO1fY+K90/mCe7X7oItvcjx8vu3uXANac3T0gbcc=
