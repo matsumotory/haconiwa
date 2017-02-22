@@ -3,6 +3,13 @@ sudo: required
 
 language: c
 before_install:
+  # upgrade g++ and libstdc++ to build nghttp2
+  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+  - sudo apt-add-repository --yes ppa:smspillaz/cmake-2.8.12
+  - sudo apt-get --yes update
+  - sudo apt-get install --yes cmake cmake-data g++-4.8 libstdc++-4.8-dev php5-cgi wget
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8"; fi
+  - $CXX --version
   - curl -L  https://github.com/coreos/etcd/releases/download/v2.3.7/etcd-v2.3.7-linux-amd64.tar.gz -o etcd-v2.3.7-linux-amd64.tar.gz
   - tar xzvf etcd-v2.3.7-linux-amd64.tar.gz
   - cd etcd-v2.3.7-linux-amd64 && sudo nohup ./etcd &
