@@ -32,6 +32,13 @@ branches:
     - master
     - 0.6.x-dev
     - 0.7.x-dev
+install:
+  # Set the core file limit to unlimited so a core file is generated upon crash
+  - ulimit -c unlimited -S
+  - ulimit -c
+  - ulimit -a -S
+  - ulimit -a -H
+  - cat /proc/sys/kernel/core_pattern
 
 before_script:
 - ulimit -c unlimited -S       # enable core dumps
@@ -42,8 +49,8 @@ script:
   - sudo sed -e "s?/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin?${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin?g" --in-place /etc/sudoers
   - sudo cat /etc/sudoers
   - sudo /usr/bin/rake test:bintest
-  - ulimit -c unlimited
   - sudo /usr/bin/rake test:mtest
+  - for i in $(find ./ -maxdepth 1 -name 'core*' -print); do gdb python core* -ex "thread apply all bt" -ex "set pagination 0" -batch; done;
   - COREFILE=$(find . -maxdepth 1 -name "core*" | head -n 1)
   - echo $COREFILE
   - if [[ -f "$COREFILE" ]]; then gdb -c "$COREFILE" example -ex "thread apply all bt" -ex "set pagination 0" -batch; fi
