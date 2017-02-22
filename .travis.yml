@@ -11,6 +11,7 @@ addons:
   apt:
     packages:
       - rake
+      - bundler
       - psmisc
       - bison
       - git
