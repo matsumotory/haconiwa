@@ -46,7 +46,7 @@ script:
   - sudo /usr/bin/rake test:bintest
   - ulimit -c unlimited
   - sudo /usr/bin/rake test:mtest
-  - COREFILE=$(find . -maxdepth 1 -name "core*" | head -n 1) # find core file
+  - COREFILE=$(find . -maxdepth 1 -name "core*" | head -n 1)
   - echo $COREFILE
   - if [[ -f "$COREFILE" ]]; then gdb -c "$COREFILE" example -ex "thread apply all bt" -ex "set pagination 0" -batch; fi
 
