@@ -51,6 +51,7 @@ before_script:
 script:
   - rake consistent
   - rake compile
+  - cd mruby/build/host/mrbgems/mruby-uv/libuv-1.0.0 && make check
   - sudo /usr/bin/rake test:bintest
   - sudo /usr/bin/rake test:mtest
   
