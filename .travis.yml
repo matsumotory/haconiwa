@@ -57,6 +57,7 @@ script:
   - sudo cat /etc/sudoers
   - sudo /usr/bin/rake test:bintest
   - sudo /usr/bin/rake test:mtest
+  - ls -la
   - for i in $(find ./ -maxdepth 1 -name 'core*' -print); do gdb -c $i -ex "thread apply all bt" -ex "set pagination 0" -batch; done;
   - COREFILE=$(find . -maxdepth 1 -name "core*" | head -n 1)
   - echo $COREFILE
