@@ -34,6 +34,7 @@ branches:
 cache:
   directories:
     - mruby
+
 before_script:
   - sudo sed -e "s?/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin?${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin?g" --in-place /etc/sudoers
 script:
