@@ -1,7 +1,16 @@
 dist: trusty
 sudo: required
 
+language: cpp
+
 before_install:
+  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+  - sudo apt-get -qq update
+
+install:
+  - sudo apt-get -qq install rake bison git gperf g++-4.9 libstdc++-4.9-dev libev-dev libevent-dev libjansson-dev libjemalloc-dev libxml2-dev libssl-dev zlib1g-dev make binutils autoconf automake autotools-dev libtool pkg-config libcunit1-dev libc-ares-dev
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
+  - $CXX -v
   - curl -L  https://github.com/coreos/etcd/releases/download/v2.3.7/etcd-v2.3.7-linux-amd64.tar.gz -o etcd-v2.3.7-linux-amd64.tar.gz
   - tar xzvf etcd-v2.3.7-linux-amd64.tar.gz
   - cd etcd-v2.3.7-linux-amd64 && sudo nohup ./etcd &
